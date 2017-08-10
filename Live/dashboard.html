@@ -1,0 +1,347 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+ 
+	<meta id="viewport" name="viewport" content ="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+
+
+	<title data-bind="html: pageTitle">Cozy</title>
+ 
+	 
+
+	 
+	 
+	<link rel="stylesheet" href="css/main.f323eb55.css">
+
+ 
+</head>
+<body class="site-container site-loading " data-bind="
+	contactSupportWatcher: null,
+	css: siteWrapperCss
+">
+	 
+
+	<main class="site-wrapper wrapper  ">
+
+		<header class="header clearfix header-visible" data-bind="headerShim: {hide: 'header-hide', visible: 'header-visible'}">
+			<div class="header-wrapper clearfix">
+			<!-- ko if: singleColumn -->	<div class="header-flexbox-spacer hide-for-print" style="display: none" data-bind="visible: !loading()"></div>
+			<!-- /ko -->
+			<!-- ko ifnot: singleColumn -->	<!-- ko if: signedIn() -->
+				<div class="notify-trigger-wrapper text-left has-caret hide-for-print" style="display: none" data-bind="visible: !loading()">
+					<a href="#" class="notify-trigger icon-bell" data-bind="panelClickToggler: 'notify', css: { 'show-indicator': notificationsHandler.unacknowledgedList().length > 0 }" title="Notifications"></a>
+				</div>
+				<!-- /ko -->
+			<!-- /ko -->
+				<div class="header-home-wrapper">
+					<a id="cozyLogo" href="/" data-bind="click: router.gotoHome" class="header-home-btn">
+						<img src="/img/cozy-brand.svg" alt="Cozy">
+					</a>
+				</div>
+			
+				<!-- ko if: signedIn -->
+				<div class="user-nav-wrapper has-caret hide-for-print" style="display: none" data-bind="visible: !loading()">
+					<a id="toggleUserNav" href="#" class="user-nav-trigger header-link" data-bind="panelClickToggler: 'userNav'">
+						<span class="user-nav-name" data-bind="html: user().fullName()"></span>
+						<i class="icon-user"></i>
+					</a>
+			
+					<!-- ko if: signedIn -->
+					<div class="panel usernav-panel text-left" data-bind="visible:true, panelShim: 'panel-visible', panelClickPanel: 'userNav'" style="display:none">
+						<section class="panel-content-container row">
+							<div class="small-12 columns">
+					<!-- ko if: singleColumn -->			<h3 class="text-semibold show-for-medium-down" data-bind="html: user().fullName()"></h3>
+								<hr class="buffer-small show-for-medium-down">
+					<!-- /ko -->			<ul class="unstyled-list">
+									<!-- ko foreach: userNavLinksComputed -->
+									<li><a data-bind="href: href, html: text, click: $parent.onMenuSelect"></a></li>
+									<!-- /ko -->
+									<li><a id="userNavSignOut" href="#" data-bind="click: $root.signout.bind($root)">Sign Out</a></li>
+								</ul>
+							</div>
+						</section>
+					</div>
+					<!-- /ko -->
+				</div>
+				<!-- /ko -->
+			
+			<!-- ko ifnot: singleColumn -->	<!-- ko if: signedIn -->
+				<div class="text-right menu-trigger-wrapper hide-for-print" style="display: none" data-bind="visible: !loading()">
+					<a id="toggleMenuPanel" href="#" data-bind="panelClickToggler: 'menuPanel'" class="btn-menu-trigger"><span></span></a>
+				</div>
+				<!-- /ko -->
+			<!-- /ko -->
+			<!-- ko if: singleColumn -->	<!-- ko ifnot: signedIn -->
+				<div class="signin-wrapper text-right hide-for-print" style="display: none" data-bind="visible: !loading()">
+					<a id="headerSignIn" href="#" data-bind="click: signinAndReturnHere">Sign In</a>
+				</div>
+				<!-- /ko -->
+			<!-- /ko --></div>
+		</header>
+		
+		<p class="show-for-print-only text-center buffer-top-small buffer-bottom">Powered by Cozy. Tenant screening, online rent, and more, free for landlords. <br><a href="http://www.cozy.co">www.cozy.co</a></p>
+
+		
+
+<!-- ko ifnot: singleColumn -->	<aside class="menupanel" data-bind="panelClickPanel: 'menuPanel'">
+		<menu class="menu-list">
+	
+		<!-- ko if: signedIn() -->
+	
+			<!-- ko if: authStatus().isSudoed() -->
+			<li class="menu-item banner-warn banner-block">Sudoed as <span data-bind="html: authStatus().authEmail()"></span>.</li>
+			<!-- /ko -->
+	
+			<!-- ko if: user().isLandlord -->
+			<li class="menu-item"><a href="/properties/" data-bind="click: onMenuSelect, href: '/properties/', hrefActiveCss: 'menu-item-active'"><i class="icon-house"></i> <span>Properties</span></a></li>
+			<li class="menu-item"><a href="/leases/" data-bind="click: onMenuSelect, href: '/leases/', hrefActiveCss: 'menu-item-active'"><i class="icon-dollarlist"></i> <span>Leases</span></a></li>
+			<li class="menu-item"><a href="/listings/" data-bind="click: onMenuSelect, href: '/listings/', hrefActiveCss: 'menu-item-active'"><i class="icon-yardsign"></i> <span>Listings</span></a></li>
+			<li class="menu-item"><a href="/applicants/" data-bind="click: onMenuSelect, href: '/applicants/', hrefActiveCss: 'menu-item-active'"><i class="icon-personfile"></i> <span>Applications</span></a></li>
+			<li class="menu-item"><a href="/screening-tools/requests/" data-bind="click: onMenuSelect, href: '/screening-tools/requests/', hrefActiveCss: 'menu-item-active'"><i class="icon-shield"></i> <span>Screening</span></a></li>
+			<li class="menu-item"><a href="/paid-services/" data-bind="click: onMenuSelect, href: '/paid-services/', hrefActiveCss: 'menu-item-active'"><i class="icon-pluscircle"></i> <span>Paid Services</span></a></li>
+			<!-- /ko -->
+	
+			<!-- ko if: user().isTenant -->
+			<li class="menu-item"><a href="/payments/" data-bind="click: onMenuSelect, href: '/payments/', hrefActiveCss: 'menu-item-active'"><i class="icon-dollarlist"></i> <span>Payments</span></a></li>
+			<li class="menu-item"><a href="/applications/" data-bind="click: onMenuSelect, href: '/applications/', hrefActiveCss: 'menu-item-active'"><i class="icon-personfile"></i> <span>Applications</span></a></li>
+			<li class="menu-item"><a href="/screening-tools/shares/" data-bind="click: onMenuSelect, href: '/screening-tools/shares/', hrefActiveCss: 'menu-item-active'"><i class="icon-shield"></i> <span>Screening</span></a></li>
+			<li class="menu-item"><a href="/renter-profile/" data-bind="click: onMenuSelect, href: '/renter-profile/', hrefActiveCss: 'menu-item-active'"><i class="icon-userframe"></i> <span>Renter Profile</span></a></li>
+			<!-- /ko -->
+			<li class="menu-item"><a href="/payment-accounts/" data-bind="click: onMenuSelect, href: '/payment-accounts/', hrefActiveCss: 'menu-item-active'"><i class="icon-bank"></i> <span>Banks &amp; Cards</span></a></li>
+	
+			<li class="show-for-medium-down unstyled-list"><hr></li>
+			<li class="show-for-medium-down buffer-top-none"><h3 class="menu-header text-semibold" data-bind="html: user().fullName()"></h3></li>
+			<!-- ko foreach: userNavLinksComputed -->
+			<li class="show-for-medium-down menu-item-muted"><a href="#" data-bind="click: $parent.onMenuSelect, href: href, html: text, hrefActiveCss: 'menu-item-active'"></a></li>
+			<!-- /ko -->
+			<li class="show-for-medium-down menu-item-muted"><a href="#" id="menuPanelSignOut" data-bind="click: $root.signout.bind($root)">Sign Out</a></li>
+		<!-- /ko -->
+	
+			<!-- ko ifnot: signedIn() -->
+			<li class="menu-item-muted show-for-small-only"><a href="/">Sign In</a></li>
+			<!-- /ko -->
+			<li class="show-for-medium-down"><hr></li>
+			<li class="show-for-large-up menu-dividing-buffer"></li>
+			<!-- ko if: signedIn() && user().isLandlord() -->
+			<li class="menu-item-muted"><a href="/data-export/" data-bind="click: onMenuSelect, href: '/data-export/'">Export Payment Data</a></li>
+			<!-- /ko -->
+			<li class="menu-item-muted"><a href="https://support.cozy.co/" target="_blank" data-bind="click: onMenuSelect">Help Center</a></li>
+			<li class="menu-item-muted"><a href="/contact-support/#!/" data-bind="click: onMenuSelect">Contact Support</a></li>
+			<li class="menu-item-muted"><a href="https://www.cozy.co/terms-of-use/" target="_blank" data-bind="click: onMenuSelect">Terms of Use</a></li>
+			<li class="menu-item-muted"><a href="https://www.cozy.co/security-and-privacy/" target="_blank" data-bind="click: onMenuSelect">Security &amp; Privacy</a></li>
+	
+			<!-- ko if: user().isAdmin() || authStatus().isSudoed() -->
+			<li class="menu-item-muted"><a href="/admin/" data-bind="click: onMenuSelect, href: '/admin/'">Admin</a></li>
+			<!-- /ko -->
+	
+			<!-- ko if: environmentBanner() -->
+			<li class="menu-item banner-warn banner-block menu-dividing-buffer"><span data-bind="html: environmentBanner"></span></li>
+			<!-- /ko -->
+	
+		</menu>
+	
+	</aside>
+<!-- /ko -->
+<div class="view-container scrollable">
+	<div class="scrollable-content">
+
+		<banner-msg params="css: 'banner-fullwidth text-center', buffer: 'none', wide: true, text: systemWarningHtml, type: 'info', colorsInverted: true, dismissable: true, dismissCookie: 'system-warning', dismissCookieExpiryMins: 1440, delayRevealTime: 1000"></banner-msg>
+
+		<!-- ko ifnot: appError.currentError() -->
+		
+<script>
+	window._cozyAppPages = [{"route":"/admin","pageName":"admin","viewModel":"adminViewModel"},{"route":"/applications","pageName":"applications","viewModel":"rentalApplicationsViewModel","userType":"tenant"},{"route":"/applicants","pageName":"applicants","viewModel":"applicantsViewModel","userType":"landlord"},{"route":"/data-export","pageName":"data-export","viewModel":"dataExportViewModel","userType":"landlord"},{"route":"/leases","pageName":"leases","viewModel":"leasesViewModel","userType":"landlord"},{"route":"/listings","pageName":"listings","viewModel":"listingsViewModel","userType":"landlord"},{"route":"/paid-services","pageName":"paid-services","viewModel":"paidServicesViewModel","userType":"landlord"},{"route":"/payments","pageName":"payments","viewModel":"paymentsViewModel","userType":"tenant"},{"route":"/payment-accounts","pageName":"payment-accounts","viewModel":"paymentAccountsViewModel"},{"route":"/preferences","pageName":"preferences","viewModel":"preferencesViewModel"},{"route":"/profile","pageName":"profile","viewModel":"landlordProfileViewModel"},{"route":"/properties","pageName":"properties","viewModel":"propertiesViewModel","userType":"landlord"},{"route":"/renter-profile","pageName":"renter-profile","viewModel":"renterProfileViewModel","userType":"tenant"},{"route":"/screening-tools/requests","pageName":"screening-tools-requests","viewModel":"screeningToolsRequestsViewModel","userType":"landlord"},{"route":"/screening-tools/shares","pageName":"screening-tools-shares","viewModel":"screeningToolsSharesViewModel","userType":"tenant"}];
+</script>
+
+	<!-- ko if: page('admin') -->
+	<admin-view-model></admin-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('applications') -->
+	<applications-view-model></applications-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('applicants') -->
+	<applicants-view-model></applicants-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('data-export') -->
+	<data-export-view-model></data-export-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('leases') -->
+	<leases-view-model></leases-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('listings') -->
+	<listings-view-model></listings-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('paid-services') -->
+	<paid-services-view-model></paid-services-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('payments') -->
+	<payments-view-model></payments-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('payment-accounts') -->
+	<payment-accounts-view-model></payment-accounts-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('preferences') -->
+	<preferences-view-model></preferences-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('profile') -->
+	<profile-view-model></profile-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('properties') -->
+	<properties-view-model></properties-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('renter-profile') -->
+	<renter-profile-view-model></renter-profile-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('screening-tools-requests') -->
+	<screening-tools-requests-view-model></screening-tools-requests-view-model>
+	<!-- /ko -->
+	<!-- ko if: page('screening-tools-shares') -->
+	<screening-tools-shares-view-model></screening-tools-shares-view-model>
+	<!-- /ko -->
+
+		<!-- /ko -->
+		<!-- ko if: appError.currentError() -->
+		<div class="row buffer-top">
+			<section class="small-12 medium-6 medium-offset-3 text-center column">
+		
+				<!-- ko if: appError.currentError() === 'general' -->
+				<i class="alert-img icon-alert"></i>
+				<h2>Something went wrong.</h2>
+				<p class="intro-text">We encountered an error. Please try refreshing your browser. If problems continue please <a href="mailto:support@cozy.co">contact support</a>.</p>
+				<!-- /ko -->
+		
+				<!-- ko if: appError.currentError() === '404' -->
+				<i class="alert-img icon-cozy"></i>
+				<h2>Uh Oh.. we couldn&rsquo;t find that link.</h2>
+				<p class="intro-text">The requested URL could not be found.</p>
+				<!-- /ko -->
+		
+		
+				<!-- ko foreach: errorScreenButtons -->
+					<!-- ko if: $index() --><br><!-- /ko -->
+					<!-- ko if: $data.href -->
+					<a class="btn-medium buffer-bottom-none" href="#" data-bind="text: $data.text, href: $data.href, css: $data.primary ? 'btn' : 'btn-alt'"></a>
+					<!-- /ko -->
+					<!-- ko ifnot: $data.href  -->
+					<a class="btn-medium buffer-bottom-none" href="#" data-bind="text: $data.text, click: $data.click.bind($root), css: $data.primary ? 'btn' : 'btn-alt'"></a>
+					<!-- /ko -->
+				<!-- /ko -->
+			</section>
+		</div>
+		<!-- /ko -->
+
+<!-- ko if: singleColumn -->		<footer class="footer">
+			<div class="row">
+				<div class="footer-links small-12 medium-6 columns">
+					<a class="gutter-right-small text-small" href="https://support.cozy.co/" target="_blank">Help Center</a>
+					<!-- ko if: signedIn() -->
+					<a class="gutter-right-small text-small" href="/contact-support/#!/">Contact Support</a>
+					<!-- /ko -->
+					<!-- ko ifnot: signedIn() -->
+					<a class="gutter-right-small text-small" href="mailto:support@cozy.co">Contact Support</a></li>
+					<!-- /ko -->
+					<a class="gutter-right-small text-small" href="https://www.cozy.co/terms-of-use/" target="_blank">Terms of Use</a>
+					<a class="gutter-right-small text-small" href="https://www.cozy.co/security-and-privacy/" target="_blank">Security &amp; Privacy</a>
+				</div>
+				<div class="footer-colophon small-12 medium-6 columns">
+					<p class="text-small">&copy; 2012-<span data-bind="text: new Date().getFullYear()"></span> Cozy Services Ltd. All Rights Reserved</p>
+				</div>
+			</div>
+		</footer>
+<!-- /ko -->
+	</div>
+
+</div>
+<!-- ko ifnot: singleColumn -->	<!-- ko if: signedIn -->
+	<div class="panel-fullwidth notify-panel" data-bind="visible:true, panelClickPanel: 'notify', panelShim: 'panel-visible'" style="display:none">
+	
+		<div class="panel-header">
+			<div class="row row-table">
+				<div class="small-10 medium-12 columns column-table-cell">
+					<h3>Notifications</h3>
+				</div>
+				<div class="small-2 columns column-table-cell text-right">
+					<a class="text-muted" href="#" data-bind="click: panels.closer('notify')"><i class="icon-x"></i></a>
+				</div>
+			</div>
+		</div>
+	
+		<section class="panel-content-container scrollable">
+			<div class="scrollable-content">
+				<!-- ko if: notificationsHandler.hasNotifications -->
+				<section class="" data-bind="foreachAnimated: notificationsHandler.unacknowledgedList">
+					<notification class="notify-item" params="notification: $data, router: $root.router, panels: $root.panels"></notification>
+				</section>
+				<!-- /ko -->
+	
+				<!-- ko ifnot: notificationsHandler.hasNotifications -->
+				<section class="text-center padder-top-large">
+					<i class="alert-img icon-bell padder-top-large"></i>
+					<p class="intro-text">No notifications to show.</p>
+				</section>
+				<!-- /ko -->
+			</div>
+		</section>
+	
+	</div>
+	<!-- /ko -->
+<!-- /ko -->
+
+		<popup params="id: 'signin-modal', undismissable: true, hideClose: true">
+			<h2>You&rsquo;ve been logged out</h2>
+			<p>Your session has expired. Please sign in to continue.</p>
+			<div class="text-left">
+				<auth-form params="
+					parentView: $root,
+					user: $root.user,
+					authSection: 'signin',
+					hideNavigationText: true,
+					successCallback: $root.signinModalSuccess,
+					signinBtnText: 'Continue',
+					emailFieldDisabled: true
+				"></auth-form>
+			</div>
+			<p>Not you? <a href="/#!">Sign in as another user</a>.</p>
+		</popup>
+		<popup params="id: 'signed-out-modal', undismissable: true, hideClose: true">
+			<h2>Your session has expired</h2>
+			<div>
+				You may have signed out from another tab.<br />
+				Please sign in again.
+			</div>
+			<a class="btn" href="/#!/signin">OK</a>
+		</popup>
+
+		<popup params="id: 'contact-support', css: { 'text-center': false }">
+			<contact-support-form params="parentView: $root, subject: $root.contactSupportSubject, message: $root.contactSupportMessage, successCallback: $root.contactSupportSuccess"></contact-support-form>
+		</popup>
+		
+		<popup params="
+			id: 'contact-support-success',
+			title: 'We sent your request',
+			content: 'You should receive an email shortly confirming that we received your support request. We will get back to you as soon as we can.'
+		"></popup>
+
+	</main>
+
+	<noscript>
+		<div class="popup-wrapper popup-active">
+			<div class="popup">
+				<i class="alert-img icon-cozy"></i>
+				<h1>Javascript is required to run Cozy.</h1>
+				<p>It looks like Javascript has been disabled in your browser. Please <a href="http://www.enable-javascript.com/" target="_blank">enable javascript</a> to coninue.</p>
+			</div>
+			<div class="popup-overlay"></div>
+		</div>
+	</noscript>
+
+	<p class="show-for-print-only text-center buffer">Visit <a href="https://www.landlordology.com/">landlordology.com</a> for free landlord tools, state law summaries, and more.</p>
+
+	 
+ 
+</body>
+</html>
